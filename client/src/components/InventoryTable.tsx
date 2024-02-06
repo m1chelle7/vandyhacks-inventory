@@ -17,7 +17,7 @@ const InventoryTable: React.FC = () => {
     ],
   };
   return (
-    <Flex direction="column" align="flex-start" w="100%">
+    <Flex direction="column" align="flex-start" w="100%" style={{minWidth: '30vw'}}>
         <Group gap={7} mb={10} align="center">
           <Title order={3}>
               Inventory

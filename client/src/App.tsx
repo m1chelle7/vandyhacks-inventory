@@ -5,12 +5,14 @@ import '@mantine/core/styles.css';
 import DeliveryTable from "./components/DeliveryTable";
 import InventoryTable from "./components/InventoryTable";
 import Header from "./components/Header";
+import { useBetween } from 'use-between';
 
 const App: React.FC = () => {
 
   const [openedAdd, setOpenedAdd] = useState(false);
   const [openedMod, setOpenedMod] = useState(false);
   const [openedDel, setOpenedDel] = useState(false);
+  // const { openDelDelivery, setOpenDelDelivery } = useBetween(useShowDelDelivery);
 
 
   return (
@@ -18,7 +20,7 @@ const App: React.FC = () => {
     <MantineProvider>
       <Container fluid m="1rem">
         <Header/>
-        <Flex gap="50px" direction="row" justify="center" align="center" ml="10rem" mr="10rem" mt="2rem">
+        <Flex gap="2rem" direction="row" justify="center" align="center" ml="10rem" mr="10rem" mt="2rem">
           <Stack w="10rem">
             <Modal.Root opened={openedAdd} onClose={() => setOpenedAdd(false)} centered>
               <Modal.Overlay/>
