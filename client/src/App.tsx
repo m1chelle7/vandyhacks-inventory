@@ -1,6 +1,6 @@
 import React, {useState, useEffect } from 'react';
 import './App.css';
-import { Text, MantineProvider, Container, Title, Stack, Button, Flex, Modal, Select, Group, NumberInput} from "@mantine/core";
+import { Text, MantineProvider, Container, Title, Stack, Button, Flex, Modal, Select, Group, NumberInput, TextInput} from "@mantine/core";
 import '@mantine/core/styles.css';
 import DeliveryTable from "./components/DeliveryTable";
 import InventoryTable from "./components/InventoryTable";
@@ -52,6 +52,9 @@ const App: React.FC = () => {
                       description="Input the total price (2 decimal places)"
                       decimalScale={2}
                     />
+                    <TextInput>
+                      
+                    </TextInput>
                   </Stack>
                   
                 </Modal.Body>
