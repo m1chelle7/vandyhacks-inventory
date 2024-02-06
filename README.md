@@ -10,3 +10,5 @@ For this project, I chose to solve the Operations Team's problem.
 ## Demo 
 
 ## Potential Additional Features
+1. The ability to add more types of physical items
+2. A display with the club budget
