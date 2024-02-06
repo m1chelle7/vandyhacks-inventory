@@ -1,6 +1,6 @@
 import React, {useState, useEffect } from 'react';
 import './App.css';
-import { Text, MantineProvider, Container, Title, Stack, Button, Flex, Modal} from "@mantine/core";
+import { Text, MantineProvider, Container, Title, Stack, Button, Flex, Modal, Select, Group, NumberInput} from "@mantine/core";
 import '@mantine/core/styles.css';
 import DeliveryTable from "./components/DeliveryTable";
 import InventoryTable from "./components/InventoryTable";
@@ -16,13 +16,12 @@ const App: React.FC = () => {
 
 
   return (
-    
     <MantineProvider>
       <Container fluid m="1rem">
         <Header/>
         <Flex gap="2rem" direction="row" justify="center" align="center" ml="10rem" mr="10rem" mt="2rem">
           <Stack w="10rem">
-            <Modal.Root opened={openedAdd} onClose={() => setOpenedAdd(false)} centered>
+            <Modal.Root opened={openedAdd} onClose={() => setOpenedAdd(false)} centered size="30rem">
               <Modal.Overlay/>
               <Modal.Content>
                 <Modal.Header>
@@ -30,7 +29,31 @@ const App: React.FC = () => {
                   <Modal.CloseButton />
                 </Modal.Header>
                 <Modal.Body>
-                  Modal content
+                  <Stack>
+                    <Flex direction="row" justify="flex-start" gap="2rem">
+                      <Select
+                        label="Type"
+                        placeholder="Pick value"
+                        description="Select the type of merch"
+                        data={['T-Shirt', 'Sticker', 'Swag']}
+                        style={{minWidth:"10rem"}}
+                      />
+                      <NumberInput
+                        label="Quantity"
+                        description="Input the number of items"
+                        placeholder="Type here..."
+                        w="100%"
+                      />
+                    </Flex>
+                    <NumberInput
+                      prefix="$"
+                      label="Price"
+                      placeholder="$0.00"
+                      description="Input the total price (2 decimal places)"
+                      decimalScale={2}
+                    />
+                  </Stack>
+                  
                 </Modal.Body>
               </Modal.Content>
             </Modal.Root>
