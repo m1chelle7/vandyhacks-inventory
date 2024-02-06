@@ -1,0 +1,21 @@
+# Keep environment variables out of version control
+.env
+node_modules/
+prisma/.env
+
+docs/
+coverage/
+
+.vscode/
+.DS_Store
+.idea/
+*.iml
+
+
+build/
+dist/
+*.bundle.js
+*.bundle.js.map
+
+config.js
+*.config
