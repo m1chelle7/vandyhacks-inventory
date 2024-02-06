@@ -12,6 +12,7 @@ const App: React.FC = () => {
   const [openedMod, setOpenedMod] = useState(false);
   const [openedDel, setOpenedDel] = useState(false);
   const [openedDele, setOpenedDele] = useState(false);
+  const [openedDele, setOpenedDele] = useState(false);
 
 
   return (
