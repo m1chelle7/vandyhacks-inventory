@@ -1,24 +1,36 @@
 import React, {useState, useEffect } from 'react';
 import './App.css';
-import { Text, MantineProvider, Container, Title, Stack, Button, Flex, Modal, Select, Group, NumberInput, TextInput } from "@mantine/core";
-import { DateInput } from '@mantine/dates';
+import { Text, MantineProvider, Container, Title, Stack, Button, Flex, Modal, Select, Group, NumberInput, TextInput, Indicator  } from "@mantine/core";
+import { DateInput, DatePicker, DatePickerProps } from '@mantine/dates';
 import '@mantine/core/styles.css';
 import DeliveryTable from "./components/DeliveryTable";
 import InventoryTable from "./components/InventoryTable";
 import Header from "./components/Header";
 import { useBetween } from 'use-between';
 
+const dayPlacedRenderer: DatePickerProps['renderDay'] = (date) => {
+  const curDate = new Date();
+  const curDay = curDate.getDate();
+  const day = date.getDate();
+  return (
+    <Indicator size={6} color="red" offset={-4} disabled={day !== curDay}>
+      <div>{day}</div>
+    </Indicator>
+  );
+};
+
 const App: React.FC = () => {
 
   const [openedAdd, setOpenedAdd] = useState(false);
   const [openedMod, setOpenedMod] = useState(false);
   const [openedDel, setOpenedDel] = useState(false);
-  const [value, setValue] = useState<Date | null>(null);
+  const [date, setDate] = useState<Date | null>(null);
   // const { openDelDelivery, setOpenDelDelivery } = useBetween(useShowDelDelivery);
 
 
   return (
     <MantineProvider>
+    
       <Container fluid m="1rem">
         <Header/>
         <Flex gap="2rem" direction="row" justify="center" align="center" ml="10rem" mr="10rem" mt="2rem">
@@ -32,7 +44,7 @@ const App: React.FC = () => {
                 </Modal.Header>
                 <Modal.Body>
                   <Stack>
-                    <Flex direction="row" justify="flex-start" gap="2rem">
+                    <Flex direction="row" justify="flex-start" gap="1.5rem">
                       <Select
                         label="Type"
                         placeholder="Pick value"
@@ -63,13 +75,29 @@ const App: React.FC = () => {
                       description="Input the company"
                       required
                     />
-                    {/*<DateInput
-                      value={value}
-                      onChange={setValue}
-                      label="Date input"
-                      placeholder="Date input"
-  />*/}
-
+                    <Flex direction="row" justify="flex-start" gap="1.5rem">
+                      <DateInput
+                          label="Date Placed"
+                          description="Select the date order was placed"
+                          value={date}
+                          placeholder="Input the date"
+                          renderDay={dayPlacedRenderer}
+                          style={{minWidth:"10rem"}}
+                          w="100%"
+                      />
+                      <DateInput
+                          label="Date Delivered"
+                          description="Select the date order was delivered"
+                          value={date}
+                          placeholder="Inpute the date"
+                          renderDay={dayPlacedRenderer}
+                          style={{minWidth:"10rem"}}
+                          w="100%"
+                      />
+                    </Flex>
+                    
+                    
+        
                   </Stack>
                   
                 </Modal.Body>

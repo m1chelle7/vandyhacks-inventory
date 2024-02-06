@@ -9,7 +9,7 @@ const Header: React.FC = () => {
     <header>
     <Container size="md" fluid className="header" >
     <Title order={1} style={{ textAlign: 'center'}}>
-        VandyHacks Inventory Tracker
+        Inventory Tracker
     </Title>
     
     </Container>
