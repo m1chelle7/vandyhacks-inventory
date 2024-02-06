@@ -1,6 +1,7 @@
 import React, {useState, useEffect } from 'react';
 import './App.css';
-import { Text, MantineProvider, Container, Title, Stack, Button, Flex, Modal, Select, Group, NumberInput, TextInput} from "@mantine/core";
+import { Text, MantineProvider, Container, Title, Stack, Button, Flex, Modal, Select, Group, NumberInput, TextInput } from "@mantine/core";
+import { DateInput } from '@mantine/dates';
 import '@mantine/core/styles.css';
 import DeliveryTable from "./components/DeliveryTable";
 import InventoryTable from "./components/InventoryTable";
@@ -12,6 +13,7 @@ const App: React.FC = () => {
   const [openedAdd, setOpenedAdd] = useState(false);
   const [openedMod, setOpenedMod] = useState(false);
   const [openedDel, setOpenedDel] = useState(false);
+  const [value, setValue] = useState<Date | null>(null);
   // const { openDelDelivery, setOpenDelDelivery } = useBetween(useShowDelDelivery);
 
 
@@ -37,24 +39,37 @@ const App: React.FC = () => {
                         description="Select the type of merch"
                         data={['T-Shirt', 'Sticker', 'Swag']}
                         style={{minWidth:"10rem"}}
+                        required
                       />
                       <NumberInput
                         label="Quantity"
                         description="Input the number of items"
                         placeholder="Type here..."
                         w="100%"
+                        required
                       />
                     </Flex>
                     <NumberInput
                       prefix="$"
                       label="Price"
                       placeholder="$0.00"
-                      description="Input the total price (2 decimal places)"
+                      description="Input the total price (max. 2 decimal places)"
                       decimalScale={2}
+                      required
                     />
-                    <TextInput>
-                      
-                    </TextInput>
+                    <TextInput
+                      label="Company"
+                      placeholder="Type here..."
+                      description="Input the company"
+                      required
+                    />
+                    {/*<DateInput
+                      value={value}
+                      onChange={setValue}
+                      label="Date input"
+                      placeholder="Date input"
+  />*/}
+
                   </Stack>
                   
                 </Modal.Body>
