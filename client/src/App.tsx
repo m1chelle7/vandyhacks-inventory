@@ -6,10 +6,7 @@ import '@mantine/core/styles.css';
 import DeliveryTable from "./components/DeliveryTable";
 import InventoryTable from "./components/InventoryTable";
 import Header from "./components/Header";
-import { useBetween } from 'use-between';
-import axios from 'axios';
 import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
 
 const dayPlacedRenderer: DatePickerProps['renderDay'] = (date) => {
   const curDate = new Date();
@@ -22,77 +19,55 @@ const dayPlacedRenderer: DatePickerProps['renderDay'] = (date) => {
   );
 };
 
-// interface TableData {
-//   caption: string;
-//   head: string[];
-//   body: React.ReactNode[][];
-// }
-
-
-// const tableData: TableData = {
-//   caption: 'Some elements from periodic table',
-//   head: ['Element position', 'Atomic mass', 'Symbol', 'Element name'],
-//   body: [
-//     [6, 12.011, 'C', 'Carbon'],
-//     [7, 14.007, 'N', 'Nitrogen'],
-//     [39, 88.906, 'Y', 'Yttrium'],
-//     [56, 137.33, 'Ba', 'Barium'],
-//     [58, 140.12, 'Ce', 'Cerium'],
-//   ],
-// };
-
 const App: React.FC = () => {
+  // const [tableData, setTableData] = useState<TableData>({
+  //   caption: 'Some elements from periodic table',
+  //   head: ['ID', 'Type', 'Quantity', 'Price', 'Company', "Delivery Date", "Arrival Date"],
+  //   body: [],
+  // });
 
   const [openedAdd, setOpenedAdd] = useState(false);
   const [openedMod, setOpenedMod] = useState(false);
   const [openedDel, setOpenedDel] = useState(false);
   const [date, setDate] = useState<Date | null>(null);
 
-  const [data, setData] = useState<any[]>([]);
-  const [formattedData, setFormattedData] = useState<TableData | undefined>(undefined);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        fetch('http://localhost:3001/api/data')
-        .then((res) => {
-          return res.json();
-        })
-        .then((data) => {
-          console.log(data);
-          setData(data);
-          const arr : any [][] = [];
-          data.forEach(function(object : any){
-            arr.push([object.id, object.type_id]);
-          });
-          setFormattedData({
 
-            body: arr
-          })
-        });
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch('http://localhost:3001/api/data');
+  //       const data = await response.json();
 
-  
+  //       const body = data.map((item: any) => [
+  //         item.id,
+  //         item.type,
+  //         item.quantity,
+  //         item.price,
+  //         item.company,
+  //         item.deliverydate,
+  //         item.arrivaldate || 'N/A', 
+  //       ]);
+        
+  //       setTableData({
+  //         ...tableData,
+  //         body: body,
+  //       });
 
-  // const tableData: TableData = {
-  //   caption: 'Supabase Table Data',
-  //   head: ['Column 1', 'Column 2', 'Column 3'], // Adjust column headers according to your Supabase table
-  //   body: data.map((item) => Object.values(item).map(String)),
-  // };
+  //       console.log(data);
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
 
-  // CHANGED END
   return (
     <MantineProvider>
-      <div>
-      <h1>Supabase Table</h1>
-      <Table data={formattedData}/>
-      </div> 
-
+      {/* <div>
+        <h1>Supabase Table</h1>
+        <Table data={tableData}/>
+      </div>  */}
     
       <Container fluid m="1rem">
         <Header/>
@@ -192,7 +167,6 @@ const App: React.FC = () => {
       </Container>
       
     </MantineProvider>
-    
     
   );
 }
