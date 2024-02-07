@@ -1,12 +1,15 @@
 import React, {useState, useEffect } from 'react';
 import './App.css';
-import { Text, MantineProvider, Container, Title, Stack, Button, Flex, Modal, Select, Group, NumberInput, TextInput, Indicator  } from "@mantine/core";
+import { Text, MantineProvider, Container, Title, Stack, Button, Flex, Modal, Select, Group, NumberInput, TextInput, Indicator, Table,  TableData } from "@mantine/core";
 import { DateInput, DatePicker, DatePickerProps } from '@mantine/dates';
 import '@mantine/core/styles.css';
 import DeliveryTable from "./components/DeliveryTable";
 import InventoryTable from "./components/InventoryTable";
 import Header from "./components/Header";
 import { useBetween } from 'use-between';
+import axios from 'axios';
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
 
 const dayPlacedRenderer: DatePickerProps['renderDay'] = (date) => {
   const curDate = new Date();
@@ -19,17 +22,77 @@ const dayPlacedRenderer: DatePickerProps['renderDay'] = (date) => {
   );
 };
 
+// interface TableData {
+//   caption: string;
+//   head: string[];
+//   body: React.ReactNode[][];
+// }
+
+
+// const tableData: TableData = {
+//   caption: 'Some elements from periodic table',
+//   head: ['Element position', 'Atomic mass', 'Symbol', 'Element name'],
+//   body: [
+//     [6, 12.011, 'C', 'Carbon'],
+//     [7, 14.007, 'N', 'Nitrogen'],
+//     [39, 88.906, 'Y', 'Yttrium'],
+//     [56, 137.33, 'Ba', 'Barium'],
+//     [58, 140.12, 'Ce', 'Cerium'],
+//   ],
+// };
+
 const App: React.FC = () => {
 
   const [openedAdd, setOpenedAdd] = useState(false);
   const [openedMod, setOpenedMod] = useState(false);
   const [openedDel, setOpenedDel] = useState(false);
   const [date, setDate] = useState<Date | null>(null);
-  // const { openDelDelivery, setOpenDelDelivery } = useBetween(useShowDelDelivery);
 
+  const [data, setData] = useState<any[]>([]);
+  const [formattedData, setFormattedData] = useState<TableData | undefined>(undefined);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        fetch('http://localhost:3001/api/data')
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          console.log(data);
+          setData(data);
+          const arr : any [][] = [];
+          data.forEach(function(object : any){
+            arr.push([object.id, object.type_id]);
+          });
+          setFormattedData({
+
+            body: arr
+          })
+        });
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  
+
+  // const tableData: TableData = {
+  //   caption: 'Supabase Table Data',
+  //   head: ['Column 1', 'Column 2', 'Column 3'], // Adjust column headers according to your Supabase table
+  //   body: data.map((item) => Object.values(item).map(String)),
+  // };
+
+  // CHANGED END
   return (
     <MantineProvider>
+      <div>
+      <h1>Supabase Table</h1>
+      <Table data={formattedData}/>
+      </div> 
+
     
       <Container fluid m="1rem">
         <Header/>
@@ -80,24 +143,25 @@ const App: React.FC = () => {
                           label="Date Placed"
                           description="Select the date order was placed"
                           value={date}
+                          onChange={setDate}
                           placeholder="Input the date"
                           renderDay={dayPlacedRenderer}
                           style={{minWidth:"10rem"}}
                           w="100%"
+                          
                       />
                       <DateInput
                           label="Date Delivered"
                           description="Select the date order was delivered"
                           value={date}
+                          onChange={setDate}
                           placeholder="Inpute the date"
                           renderDay={dayPlacedRenderer}
                           style={{minWidth:"10rem"}}
                           w="100%"
                       />
                     </Flex>
-                    
-                    
-        
+
                   </Stack>
                   
                 </Modal.Body>

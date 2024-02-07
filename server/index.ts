@@ -1,22 +1,27 @@
+import express from 'express';
+import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client'
+import cors from 'cors';
 
-const prisma = new PrismaClient()
+// ...
 
-async function main() {
-  // ... you will write your Prisma Client queries here
-  const post = await prisma.post.update({
-    where: { id: 1 },
-    data: { published: true },
-  })
-  console.log(post)
-}
+const app = express();
+const PORT = 3001;
+app.use(cors());
 
-main()
-  .then(async () => {
-    await prisma.$disconnect()
-  })
-  .catch(async (e) => {
-    console.error(e)
-    await prisma.$disconnect()
-    process.exit(1)
-  })
+const prisma = new PrismaClient();
+
+app.get('/api/data', async (req: Request, res: Response) => {
+  try {
+    const data = await prisma.delivery.findMany()
+    res.send(data);
+    console.log(data);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
