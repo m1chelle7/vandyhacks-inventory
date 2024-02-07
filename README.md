@@ -12,6 +12,7 @@ For this project, I chose to solve the Operations Team's problem.
 ## Potential Additional Features
 1. The ability to add more types of physical items
 2. A display with the club budget
+3. Offer a 'dark mode' when user presses on 'VandyHacks' button
 
 ## Run Commands
 Server side: 'npm run dev'

@@ -1,17 +1,29 @@
-import React, {useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
-import { Text, MantineProvider, Container, Title, Stack, Button, Flex, Modal, Select, Group, NumberInput, TextInput, Indicator, Table,  TableData } from "@mantine/core";
-import { DateInput, DatePicker, DatePickerProps } from '@mantine/dates';
 import '@mantine/core/styles.css';
+import { 
+  Text, 
+  MantineProvider, 
+  Container, 
+  Stack, 
+  Button, 
+  Flex, 
+  Modal, 
+  Select, 
+  NumberInput, 
+  TextInput, 
+  Indicator
+} from "@mantine/core";
+import { DateInput, DatePickerProps } from '@mantine/dates';
 import DeliveryTable from "./components/DeliveryTable";
 import InventoryTable from "./components/InventoryTable";
 import Header from "./components/Header";
-import { PrismaClient } from '@prisma/client'
 
 const dayPlacedRenderer: DatePickerProps['renderDay'] = (date) => {
   const curDate = new Date();
   const curDay = curDate.getDate();
   const day = date.getDate();
+  
   return (
     <Indicator size={6} color="red" offset={-4} disabled={day !== curDay}>
       <div>{day}</div>
@@ -30,8 +42,6 @@ const App: React.FC = () => {
   const [openedMod, setOpenedMod] = useState(false);
   const [openedDel, setOpenedDel] = useState(false);
   const [date, setDate] = useState<Date | null>(null);
-
-
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -69,7 +79,7 @@ const App: React.FC = () => {
         <Table data={tableData}/>
       </div>  */}
     
-      <Container fluid m="1rem">
+      <Container fluid ml="1rem" mr="1rem" mb="2rem" mt="2rem">
         <Header/>
         <Flex gap="2rem" direction="row" justify="center" align="center" ml="10rem" mr="10rem" mt="2rem">
           <Stack w="10rem">
@@ -81,7 +91,7 @@ const App: React.FC = () => {
                   <Modal.CloseButton />
                 </Modal.Header>
                 <Modal.Body>
-                  <Stack>
+                  <Stack mb={15}>
                     <Flex direction="row" justify="flex-start" gap="1.5rem">
                       <Select
                         label="Type"
@@ -123,10 +133,10 @@ const App: React.FC = () => {
                           renderDay={dayPlacedRenderer}
                           style={{minWidth:"10rem"}}
                           w="100%"
-                          
+                          required
                       />
                       <DateInput
-                          label="Date Delivered"
+                          label="Arrival Date"
                           description="Select the date order was delivered"
                           value={date}
                           onChange={setDate}
@@ -134,11 +144,10 @@ const App: React.FC = () => {
                           renderDay={dayPlacedRenderer}
                           style={{minWidth:"10rem"}}
                           w="100%"
+                          required
                       />
                     </Flex>
-
                   </Stack>
-                  
                 </Modal.Body>
               </Modal.Content>
             </Modal.Root>

@@ -15,8 +15,7 @@ import { IconNavigationUp, IconNavigationDown, IconTrash } from "@tabler/icons-r
 const DeliveryTable: React.FC = () => {
   
   const [tableData, setTableData] = useState<TableData>({
-    caption: 'Some elements from periodic table',
-    head: ['ID', 'Type', 'Quantity', 'Price', 'Company', "Delivery Date", "Arrival Date"],
+    head: ['ID', 'Type', 'Quantity', 'Price', 'Company', "Date Placed", "Arrival Date"],
     body: [],
   });
 
@@ -27,7 +26,7 @@ const DeliveryTable: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/data');
+        const response = await fetch('http://localhost:3001/api/data/delivery');
         const data = await response.json();
 
         const body = data.map((item: any) => [
@@ -56,11 +55,11 @@ const DeliveryTable: React.FC = () => {
 
   return (
     <Flex direction="column" align="flex-start" w="100rem" style={{ minWidth: '60vw' }}>
-      <Group justify="center" mb={10} gap={7}>
+      <Group justify="center" mb={6} gap={7}>
         <Title order={3}>
             Deliveries
         </Title>
-        <HoverCard width="10rem" shadow="md">
+        <HoverCard width="9rem" shadow="md">
           <HoverCard.Target>
             <IconNavigationUp onClick={scrollToTop}/>
           </HoverCard.Target>
@@ -70,27 +69,30 @@ const DeliveryTable: React.FC = () => {
             </Text>
           </HoverCard.Dropdown>
         </HoverCard>
-        <HoverCard width="10rem" shadow="md">
-          <HoverCard.Target>
-            <IconNavigationDown onClick={scrollToBottom}/>
-          </HoverCard.Target>
-          <HoverCard.Dropdown>
-            <Text size="sm" style={{ textAlign: 'center' }}>
-              Scroll to Bottom
-            </Text>
-          </HoverCard.Dropdown>
+          <HoverCard width="9rem" shadow="md">
+            <HoverCard.Target>
+              <IconNavigationDown onClick={scrollToBottom}/>
+            </HoverCard.Target>
+            <HoverCard.Dropdown>
+              <Text size="sm" style={{ textAlign: 'center' }}>
+                Scroll to Bottom
+              </Text>
+            </HoverCard.Dropdown>
         </HoverCard>
-        <HoverCard width="10rem" shadow="md">
-          <HoverCard.Target>
-            <IconTrash/>
-          </HoverCard.Target>
-          <HoverCard.Dropdown>
-            <Text size="sm" style={{ textAlign: 'center' }}>
-              View Deleted Deliveries
-            </Text>
-          </HoverCard.Dropdown>
-        </HoverCard>
+          <HoverCard width="12rem" shadow="md">
+            <HoverCard.Target>
+              <IconTrash/>
+            </HoverCard.Target>
+            <HoverCard.Dropdown>
+              <Text size="sm" style={{ textAlign: 'center' }}>
+                View Deleted Deliveries
+              </Text>
+            </HoverCard.Dropdown>
+          </HoverCard>
       </Group>
+      <Text c="dimmed" size="sm" mb={3}>
+        Status of ongoing and completed deliveries
+      </Text>
       <ScrollArea w="100%" h={300} viewportRef={viewport}>
         <Table stickyHeader striped highlightOnHover withColumnBorders data={tableData} w="100%"/>
       </ScrollArea>

@@ -11,7 +11,7 @@ app.use(cors());
 
 const prisma = new PrismaClient();
 
-app.get('/api/data', async (req: Request, res: Response) => {
+app.get('/api/data/delivery', async (req: Request, res: Response) => {
   try {
     const data = await prisma.delivery.findMany({
       include: {
@@ -30,6 +30,29 @@ app.get('/api/data', async (req: Request, res: Response) => {
       company: delivery.company,
       deliverydate: delivery.deliverydate,
       arrivaldate: delivery.arrivaldate
+    }));
+    res.send(transformedData);
+    console.log(transformedData);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.get('/api/data/inventory', async (req: Request, res: Response) => {
+  try {
+    const data = await prisma.inventory.findMany({
+      include: {
+        itemtype: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+    const transformedData = data.map((inventory) => ({
+      id: inventory.id,
+      quantity: inventory.quantity,
     }));
     res.send(transformedData);
     console.log(transformedData);
