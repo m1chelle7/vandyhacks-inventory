@@ -49,6 +49,7 @@ app.get('/api/data/inventory', async (req: Request, res: Response) => {
     });
     const transformedData = data.map((inventory) => ({
       id: inventory.id,
+      type: inventory.itemtype !== null ? inventory.itemtype.name : 'N/A',
       quantity: inventory.quantity,
     }));
     res.send(transformedData);

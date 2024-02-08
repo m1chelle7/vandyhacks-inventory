@@ -12,7 +12,11 @@ import {
 import '@mantine/core/styles.css';
 import { IconNavigationUp, IconNavigationDown, IconTrash } from "@tabler/icons-react"
 
-const DeliveryTable: React.FC = () => {
+interface Props {
+  colorScheme: string;
+}
+
+const DeliveryTable: React.FC<Props> = ({ colorScheme }) => {
   
   const [tableData, setTableData] = useState<TableData>({
     head: ['ID', 'Type', 'Quantity', 'Price', 'Company', "Date Placed", "Arrival Date"],
@@ -56,12 +60,12 @@ const DeliveryTable: React.FC = () => {
   return (
     <Flex direction="column" align="flex-start" w="100rem" style={{ minWidth: '60vw' }}>
       <Group justify="center" mb={6} gap={7}>
-        <Title order={3}>
+        <Title order={3} style={{color: colorScheme !== 'black' ? 'black' : 'white'}}>
             Deliveries
         </Title>
         <HoverCard width="9rem" shadow="md">
           <HoverCard.Target>
-            <IconNavigationUp onClick={scrollToTop}/>
+            <IconNavigationUp onClick={scrollToTop} color={ colorScheme !== 'black' ? 'black' : 'white'}/>
           </HoverCard.Target>
           <HoverCard.Dropdown>
             <Text size="sm" style={{ textAlign: 'center' }}>
@@ -71,7 +75,7 @@ const DeliveryTable: React.FC = () => {
         </HoverCard>
           <HoverCard width="9rem" shadow="md">
             <HoverCard.Target>
-              <IconNavigationDown onClick={scrollToBottom}/>
+              <IconNavigationDown onClick={scrollToBottom} color={ colorScheme !== 'black' ? 'black' : 'white'}/>
             </HoverCard.Target>
             <HoverCard.Dropdown>
               <Text size="sm" style={{ textAlign: 'center' }}>
@@ -81,7 +85,7 @@ const DeliveryTable: React.FC = () => {
         </HoverCard>
           <HoverCard width="12rem" shadow="md">
             <HoverCard.Target>
-              <IconTrash/>
+              <IconTrash color={ colorScheme !== 'black' ? 'black' : 'white'}/>
             </HoverCard.Target>
             <HoverCard.Dropdown>
               <Text size="sm" style={{ textAlign: 'center' }}>
@@ -94,7 +98,7 @@ const DeliveryTable: React.FC = () => {
         Status of ongoing and completed deliveries
       </Text>
       <ScrollArea w="100%" h={300} viewportRef={viewport}>
-        <Table stickyHeader striped highlightOnHover withColumnBorders data={tableData} w="100%"/>
+        <Table stickyHeader striped highlightOnHover withColumnBorders data={tableData} w="100%" style={{backgroundColor: 'white'}} borderColor={colorScheme !== 'black' ? '#DFE2E6' : '#B5B8BD'}/>
       </ScrollArea>
     </Flex>
   );

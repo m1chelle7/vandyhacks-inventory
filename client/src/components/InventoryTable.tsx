@@ -7,26 +7,28 @@ import {
   Table, 
   TableData, 
   Modal, 
-  HoverCard
+  HoverCard,
+  Stack,
+  Select,
+  NumberInput,
+  TextInput,
+  Checkbox,
+  Button,
 } from "@mantine/core";
 import '@mantine/core/styles.css';
 import { IconSquarePlus, IconSquareX } from '@tabler/icons-react';
+interface Props {
+  colorScheme: string;
+}
 
-const InventoryTable: React.FC = () => {
+const InventoryTable: React.FC<Props> = ({ colorScheme }) => {
   const [openedAddQuant, setOpenedAddQuant] = useState(false);
   const [openedDelQuant, setOpenedDelQuant] = useState(false);
+  const [checkedIncreaseInventory, setCheckedIncreaseInventory] = useState(false);
 
-  const inventoryTableData: TableData = {
-    head: ['ID', 'Type', 'Quantity'],
-    body: [
-      [1, "T-Shirt", 10],
-      [2, "Swag", 11],
-      [3, "Stickers", 20],
-    ],
-  };
 
   const [tableData, setTableData] = useState<TableData>({
-    head: ['ID', 'Quantity'],
+    head: ['ID', 'Type', 'Quantity'],
     body: [],
   });
 
@@ -38,6 +40,7 @@ const InventoryTable: React.FC = () => {
 
         const body = data.map((item: any) => [
           item.id,
+          item.type,
           item.quantity,
         ]);
         
@@ -58,22 +61,98 @@ const InventoryTable: React.FC = () => {
   return (
     <Flex direction="column" align="flex-start" w="100%" style={{minWidth: '30vw'}}>
         <Group gap={7} mb={6} align="center">
-          <Title order={3}>
+          <Title order={3} style={{color: colorScheme !== 'black' ? 'black' : 'white'}}>
               Inventory
           </Title>
-          <Modal opened={openedAddQuant} onClose={() => setOpenedAddQuant(false)} title="Authentication" centered>
-            <Text>
-              oiwjefjw
-            </Text>
-          </Modal>
-          <Modal opened={openedDelQuant} onClose={() => setOpenedDelQuant(false)} title="Authentication" centered>
-            <Text>
-              123
-            </Text>
-          </Modal>
+          <Modal.Root opened={openedAddQuant} onClose={() => setOpenedAddQuant(false)} centered>
+            <Modal.Overlay/>
+            <Modal.Content>
+              <Modal.Header>
+                <Modal.Title style={{fontWeight: "bold"}}>Add Delivery</Modal.Title>
+                <Modal.CloseButton />
+              </Modal.Header>
+              <Modal.Body>
+                <Stack mb={15}>
+                  <Flex direction="row" justify="flex-start" gap="1.5rem">
+                    <Select
+                      label="Type"
+                      placeholder="Pick value"
+                      description="Select the type of merch"
+                      data={['T-Shirt', 'Sticker', 'Swag']}
+                      style={{minWidth:"10rem"}}
+                      required
+                    />
+                    <NumberInput
+                      label="Quantity"
+                      description="Input the number of added items"
+                      placeholder="Type here..."
+                      w="100%"
+                      required
+                      allowNegative={false}
+                    />
+                  </Flex>
+                  <Checkbox
+                    label="I understand that I am ADDING to the inventory"
+                    checked={checkedIncreaseInventory}
+                    onChange={(event) => setCheckedIncreaseInventory(event.currentTarget.checked)}
+                    color="black"
+                    required  
+                  />
+                  <Button color="black">
+                    Submit
+                  </Button>
+                </Stack>
+              </Modal.Body>
+            </Modal.Content>
+          </Modal.Root>
+          <Modal.Root opened={openedDelQuant} onClose={() => setOpenedDelQuant(false)} centered>
+            <Modal.Overlay/>
+            <Modal.Content>
+              <Modal.Header>
+                <Modal.Title style={{fontWeight: "bold"}}>Add Delivery</Modal.Title>
+                <Modal.CloseButton />
+              </Modal.Header>
+              <Modal.Body>
+                <Stack mb={15}>
+                  <Flex direction="row" justify="flex-start" gap="1.5rem">
+                    <Select
+                      label="Type"
+                      placeholder="Pick value"
+                      description="Select the type of merch"
+                      data={['T-Shirt', 'Sticker', 'Swag']}
+                      style={{minWidth:"10rem"}}
+                      required
+                    />
+                    <NumberInput
+                      label="Quantity"
+                      description="Input the number of removed items"
+                      placeholder="Type here..."
+                      w="100%"
+                      required
+                      allowNegative={false}
+                    />
+                  </Flex>
+                  <Checkbox
+                    label="I understand that I am DELETING from the inventory"
+                    checked={checkedIncreaseInventory}
+                    onChange={(event) => setCheckedIncreaseInventory(event.currentTarget.checked)}
+                    color="black"
+                    required  
+                  />
+                  <Button color="black">
+                    Submit
+                  </Button>
+                </Stack>
+              </Modal.Body>
+            </Modal.Content>
+          </Modal.Root>
           <HoverCard width="9rem" shadow="md">
             <HoverCard.Target>
-              <IconSquarePlus onClick={() => setOpenedAddQuant(true)} size={"1.5rem"}/>
+              <IconSquarePlus
+                onClick={() => setOpenedAddQuant(true)} 
+                size={"1.5rem"} 
+                color={colorScheme !== 'black' ? 'black' : 'white'}
+              />
             </HoverCard.Target>
             <HoverCard.Dropdown>
               <Text size="sm" style={{ textAlign: 'center' }}>
@@ -83,7 +162,11 @@ const InventoryTable: React.FC = () => {
           </HoverCard>
           <HoverCard width="12rem" shadow="md">
             <HoverCard.Target>
-              <IconSquareX onClick={() => setOpenedDelQuant(true)} size={"1.5rem"}/>
+              <IconSquareX 
+                onClick={() => setOpenedDelQuant(true)} 
+                size={"1.5rem"} 
+                color={colorScheme !== 'black' ? 'black' : 'white'}
+              />
             </HoverCard.Target>
             <HoverCard.Dropdown>
               <Text size="sm" style={{ textAlign: 'center' }}>
@@ -94,13 +177,18 @@ const InventoryTable: React.FC = () => {
 
         </Group>
         <Text c="dimmed" size="sm" mb={3}>
-          Status of club inventory
+          Status of organization inventory
         </Text>
         
-        <Table striped highlightOnHover withColumnBorders data={tableData}/>
-
+        <Table 
+          stickyHeader 
+          striped 
+          highlightOnHover 
+          withColumnBorders 
+          data={tableData} 
+          style={{backgroundColor: 'white'}} 
+          borderColor={colorScheme !== 'black' ? '#DFE2E6' : '#B5B8BD'}/>
     </Flex>
-    
   );
 }
 
