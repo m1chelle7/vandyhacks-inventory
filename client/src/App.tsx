@@ -12,7 +12,9 @@ import {
   Select, 
   NumberInput, 
   TextInput, 
-  Indicator
+  Indicator,
+  Checkbox,
+  Table
 } from "@mantine/core";
 import { DateInput, DatePickerProps } from '@mantine/dates';
 import DeliveryTable from "./components/DeliveryTable";
@@ -42,35 +44,33 @@ const App: React.FC = () => {
   const [openedMod, setOpenedMod] = useState(false);
   const [openedDel, setOpenedDel] = useState(false);
   const [date, setDate] = useState<Date | null>(null);
+  const [minDeliveryID, setMinDeliveryID] = useState(0);
+  const [maxDeliveryID, setMaxDeliveryID] = useState(0);
+  const [checkedModDelivery, setCheckedModDelivery] = useState(false);
+  const [delDeliveryID, setDelDeliveryID] = useState<string | number>('');
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch('http://localhost:3001/api/data');
-  //       const data = await response.json();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/api/data/delivery');
+        const data = await response.json();
 
-  //       const body = data.map((item: any) => [
-  //         item.id,
-  //         item.type,
-  //         item.quantity,
-  //         item.price,
-  //         item.company,
-  //         item.deliverydate,
-  //         item.arrivaldate || 'N/A', 
-  //       ]);
+        const body = data.map((item: any) => [
+          item.id,
+        ]);
         
-  //       setTableData({
-  //         ...tableData,
-  //         body: body,
-  //       });
+        // setTableData({
+        //   ...tableData,
+        //   body: body,
+        // });
 
-  //       console.log(data);
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
+        console.log(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <MantineProvider>
@@ -107,6 +107,7 @@ const App: React.FC = () => {
                         placeholder="Type here..."
                         w="100%"
                         required
+                        allowNegative={false}
                       />
                     </Flex>
                     <NumberInput
@@ -116,6 +117,7 @@ const App: React.FC = () => {
                       description="Input the total price (max. 2 decimal places)"
                       decimalScale={2}
                       required
+                      allowNegative={false}
                     />
                     <TextInput
                       label="Company"
@@ -125,58 +127,157 @@ const App: React.FC = () => {
                     />
                     <Flex direction="row" justify="flex-start" gap="1.5rem">
                       <DateInput
-                          label="Date Placed"
-                          description="Select the date order was placed"
-                          value={date}
-                          onChange={setDate}
-                          placeholder="Input the date"
-                          renderDay={dayPlacedRenderer}
-                          style={{minWidth:"10rem"}}
-                          w="100%"
-                          required
+                        label="Date Placed"
+                        description="Select the date order was placed"
+                        value={date}
+                        onChange={setDate}
+                        placeholder="Input the date"
+                        renderDay={dayPlacedRenderer}
+                        style={{minWidth:"10rem"}}
+                        w="100%"
+                        required
                       />
                       <DateInput
-                          label="Arrival Date"
-                          description="Select the date order was delivered"
-                          value={date}
-                          onChange={setDate}
-                          placeholder="Inpute the date"
-                          renderDay={dayPlacedRenderer}
-                          style={{minWidth:"10rem"}}
-                          w="100%"
-                          required
+                        label="Arrival Date"
+                        description="Select the date order was delivered"
+                        value={date}
+                        onChange={setDate}
+                        placeholder="Inpute the date"
+                        renderDay={dayPlacedRenderer}
+                        style={{minWidth:"10rem"}}
+                        w="100%"
+                        required
                       />
                     </Flex>
+                    <Checkbox
+                      label="I understand that I am ADDING this delivery"
+                      checked={checkedModDelivery}
+                      onChange={(event) => setCheckedModDelivery(event.currentTarget.checked)}
+                      color="black"
+                      required  
+                    />
+                    <Button color="black">
+                      Submit
+                    </Button>
                   </Stack>
                 </Modal.Body>
               </Modal.Content>
             </Modal.Root>
             <Button onClick={() => setOpenedAdd(true)} fullWidth className="button" color="black">Add Delivery</Button>
-            <Modal opened={openedMod} onClose={() => setOpenedMod(false)} title="Authentication" centered>
-              <Text>
-                Bye
-              </Text>
-            </Modal>
+            <Modal.Root opened={openedMod} onClose={() => setOpenedMod(false)} centered size="30rem">
+              <Modal.Overlay/>
+              <Modal.Content>
+                <Modal.Header>
+                  <Modal.Title style={{ fontWeight: "bold" }}>Modify Delivery</Modal.Title>
+                  <Modal.CloseButton />
+                </Modal.Header>
+                <Modal.Body>
+                  <Stack mb={15}>
+                    <Flex direction="row" justify="flex-start" gap="1.5rem">
+                      <NumberInput
+                        label="Delivery ID"
+                        description="Input the delivery ID"
+                        placeholder="Type here..."
+                        w="100%"
+                        required
+                        allowNegative={false}
+                      />
+                    </Flex>
+                    <Select
+                      label="Change Type"
+                      placeholder="Pick value"
+                      description="Select the type of merch"
+                      data={['T-Shirt', 'Sticker', 'Swag']}
+                      style={{minWidth:"10rem"}}
+                    />
+                    <NumberInput
+                      prefix="$"
+                      label="Change Price"
+                      placeholder="$0.00"
+                      description="Input the total price (max. 2 decimal places)"
+                      decimalScale={2}
+                      allowNegative={false}
+                    />
+                    <TextInput
+                      label="Change Company"
+                      placeholder="Type here..."
+                      description="Input the company"
+                    />
+                    <Flex direction="row" justify="flex-start" gap="1.5rem">
+                      <DateInput
+                        label="Change Date Placed"
+                        description="Select the date order was placed"
+                        value={date}
+                        onChange={setDate}
+                        placeholder="Input the date"
+                        renderDay={dayPlacedRenderer}
+                        style={{minWidth:"10rem"}}
+                        w="100%"
+                      />
+                      <DateInput
+                        label="Change Arrival Date"
+                        description="Select the date order was delivered"
+                        value={date}
+                        onChange={setDate}
+                        placeholder="Inpute the date"
+                        renderDay={dayPlacedRenderer}
+                        style={{minWidth:"10rem"}}
+                        w="100%"
+                      />
+                    </Flex>
+                    <Checkbox
+                      label="I understand that I am MODIFYING this delivery"
+                      checked={checkedModDelivery}
+                      onChange={(event) => setCheckedModDelivery(event.currentTarget.checked)}
+                      color="black"
+                      required  
+                    />
+                    <Button color="black">
+                      Submit
+                    </Button>
+                  </Stack>
+                </Modal.Body>
+              </Modal.Content>
+            </Modal.Root>
             <Button onClick={() => setOpenedMod(true)} fullWidth className="button" color="black">Modify Delivery</Button>
             <Modal opened={openedDel} onClose={() => setOpenedDel(false)} title="Authentication" centered>
-              <Text>
-                Boo
-              </Text>
+              <Stack mb={15}>
+                <Flex direction="row" justify="flex-start" gap="1.5rem">
+                  <NumberInput
+                    label="Delivery ID"
+                    description="Input the delivery ID"
+                    placeholder="Type here..."
+                    w="100%"
+                    required
+                    allowNegative={false}
+                    value={delDeliveryID} 
+                    onChange={setDelDeliveryID}
+                    min={1}
+                  />
+                </Flex>
+                <Checkbox
+                  label="I understand that I am DELETING this delivery"
+                  checked={checkedModDelivery}
+                  onChange={(event) => setCheckedModDelivery(event.currentTarget.checked)}
+                  color="black"
+                  required  
+                />
+                <Button color="black">
+                  Submit
+                </Button>
+              </Stack>
             </Modal>
             <Button onClick={() => setOpenedDel(true)} fullWidth className="button" color="black">Delete Delivery</Button>
           </Stack>
           <Container display="flex" w="100%">
-            <InventoryTable></InventoryTable>
+            <InventoryTable/>
           </Container>
         </Flex>
         <Flex justify="center" align="center" ml="10rem" mr="10rem" mt="2rem">
           <DeliveryTable></DeliveryTable>
-        </Flex>
-        
+        </Flex> 
       </Container>
-      
     </MantineProvider>
-    
   );
 }
 

@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
-
-import { Text, createTheme, MantineProvider, Container, Burger, Group, Title, Stack, Button, Card, Flex, Table, TableData, Modal, HoverCard} from "@mantine/core";
+import { 
+  Text, 
+  Group, 
+  Title, 
+  Flex, 
+  Table, 
+  TableData, 
+  Modal, 
+  HoverCard
+} from "@mantine/core";
 import '@mantine/core/styles.css';
 import { IconSquarePlus, IconSquareX } from '@tabler/icons-react';
 

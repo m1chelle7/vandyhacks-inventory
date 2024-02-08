@@ -3,13 +3,10 @@ import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client'
 import cors from 'cors';
 
-// ...
-
+const prisma = new PrismaClient();
 const app = express();
 const PORT = 3001;
 app.use(cors());
-
-const prisma = new PrismaClient();
 
 app.get('/api/data/delivery', async (req: Request, res: Response) => {
   try {
@@ -53,6 +50,29 @@ app.get('/api/data/inventory', async (req: Request, res: Response) => {
     const transformedData = data.map((inventory) => ({
       id: inventory.id,
       quantity: inventory.quantity,
+    }));
+    res.send(transformedData);
+    console.log(transformedData);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.get('/api/data/deldelivery', async (req: Request, res: Response) => {
+  try {
+    const data = await prisma.deldelivery.findMany({
+      include: {
+        itemtype: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+    const transformedData = data.map((deldelivery) => ({
+      id: deldelivery.id,
+      quantity: deldelivery.quantity,
     }));
     res.send(transformedData);
     console.log(transformedData);
