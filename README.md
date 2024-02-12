@@ -7,7 +7,12 @@ For this project, I chose to solve the Operations Team's problem.
 **Operations:** "We have a lot of physical items to manage, such as t-shirts, stickers, and swag, but it's difficult to keep track of inventory and ensure that everything is delivered on time. If only there is an easy way to manage and track these items..."
 
 ## The App and Its Value Proposition
-This application is for the VandyHacks Operations Team, who have an issue regarding inventory management. This application stores the quantity of merch delivered in a database and retrives the amount to display. 
+The app provides a streamlined and intuitive solution for managing the VandyHacks inventory. With a clean and easy-to-navigate user interface, the app simplifies the process of tracking and accessing inventory data. <br />
+
+Key features include: <br />
+
+**Inventory Management:** The app enables efficient management of inventory items essential for Vandyhacks events. 
+**Streamlined Interface:** I designed the app with a focus on simplicity and efficiency. Users can quickly find the information they need without navigating through cluttered menus or complex interfaces, enhancing productivity.
 
 ## Demo 
 ![img](images/main.png)
@@ -26,4 +31,5 @@ The picture above is of the main page in dark mode
 4. More and better looking color schemes
 
 ## Run Commands
-Server side: 'npm run dev', Client side: 'npm start'
+**Server side:** 'npm run dev' <br />
+**Client side:** 'npm start'
