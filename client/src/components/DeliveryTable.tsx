@@ -98,7 +98,16 @@ const DeliveryTable: React.FC<Props> = ({ colorScheme }) => {
         Status of ongoing and completed deliveries
       </Text>
       <ScrollArea w="100%" h={300} viewportRef={viewport}>
-        <Table stickyHeader striped highlightOnHover withColumnBorders data={tableData} w="100%" style={{backgroundColor: 'white'}} borderColor={colorScheme !== 'black' ? '#DFE2E6' : '#B5B8BD'}/>
+        <Table 
+          stickyHeader 
+          striped 
+          highlightOnHover 
+          withColumnBorders 
+          data={tableData} 
+          w="100%" 
+          style={{backgroundColor: 'white'}} 
+          borderColor={colorScheme !== 'black' ? '#DFE2E6' : '#B5B8BD'}
+        />
       </ScrollArea>
     </Flex>
   );

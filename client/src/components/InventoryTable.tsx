@@ -68,7 +68,7 @@ const InventoryTable: React.FC<Props> = ({ colorScheme }) => {
             <Modal.Overlay/>
             <Modal.Content>
               <Modal.Header>
-                <Modal.Title style={{fontWeight: "bold"}}>Add Delivery</Modal.Title>
+                <Modal.Title style={{fontWeight: "bold"}}>Add to Inventory</Modal.Title>
                 <Modal.CloseButton />
               </Modal.Header>
               <Modal.Body>
@@ -109,7 +109,7 @@ const InventoryTable: React.FC<Props> = ({ colorScheme }) => {
             <Modal.Overlay/>
             <Modal.Content>
               <Modal.Header>
-                <Modal.Title style={{fontWeight: "bold"}}>Add Delivery</Modal.Title>
+                <Modal.Title style={{fontWeight: "bold"}}>Delete From Inventory</Modal.Title>
                 <Modal.CloseButton />
               </Modal.Header>
               <Modal.Body>
