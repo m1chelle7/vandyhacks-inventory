@@ -11,7 +11,7 @@ The app provides a streamlined and intuitive solution for managing the VandyHack
 
 Key features include: <br />
 
-**Inventory Management:** The app enables efficient management of inventory items essential for Vandyhacks events. 
+**Inventory Management:** The app enables efficient management of inventory items essential for Vandyhacks events. <br />
 **Streamlined Interface:** I designed the app with a focus on simplicity and efficiency. Users can quickly find the information they need without navigating through cluttered menus or complex interfaces, enhancing productivity.
 
 ## Demo 
