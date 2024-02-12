@@ -8,6 +8,7 @@ const app = express();
 const PORT = 3001;
 app.use(cors());
 
+// delivery
 app.get('/api/data/delivery', async (req: Request, res: Response) => {
   try {
     const data = await prisma.delivery.findMany({

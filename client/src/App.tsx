@@ -1,35 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
-import '@mantine/core/styles.css';
-import { 
-  Text, 
-  MantineProvider, 
-  Container, 
-  Stack, 
-  Button, 
-  Flex, 
-  Modal, 
-  Select, 
-  NumberInput, 
-  TextInput, 
+import React, { useState, useEffect } from "react";
+import "./App.css";
+import "@mantine/core/styles.css";
+import {
+  Text,
+  MantineProvider,
+  Container,
+  Stack,
+  Button,
+  Flex,
+  Modal,
+  Select,
+  NumberInput,
+  TextInput,
   Indicator,
   Checkbox,
   Box,
 } from "@mantine/core";
-import { DateInput, DatePickerProps } from '@mantine/dates';
+import { DateInput, DatePickerProps } from "@mantine/dates";
 import DeliveryTable from "./components/DeliveryTable";
 import InventoryTable from "./components/InventoryTable";
 import Header from "./components/Header";
 
 /**
- * @param date 
+ * @param date
  * @returns the date formatted as YYYY-MM-DD
  */
-const dayPlacedRenderer: DatePickerProps['renderDay'] = (date) => {
+const dayPlacedRenderer: DatePickerProps["renderDay"] = (date) => {
   const curDate = new Date();
   const curDay = curDate.getDate();
   const day = date.getDate();
-  
+
   return (
     <Indicator size={6} color="red" offset={-4} disabled={day !== curDay}>
       <div>{day}</div>
@@ -37,9 +37,7 @@ const dayPlacedRenderer: DatePickerProps['renderDay'] = (date) => {
   );
 };
 
-
 const App: React.FC = () => {
-
   // modal states
   const [openedAdd, setOpenedAdd] = useState(false);
   const [openedMod, setOpenedMod] = useState(false);
@@ -48,33 +46,51 @@ const App: React.FC = () => {
   // date state for modals (temp)
   const [date, setDate] = useState<Date | null>(null);
 
-  // 'delete delivery' modal confirmed as intended action by user 
+  // 'delete delivery' modal confirmed as intended action by user
   const [checkedModDelivery, setCheckedModDelivery] = useState(false);
 
   // ID of delivery to delete
-  const [delDeliveryID, setDelDeliveryID] = useState<string | number>('');
+  const [delDeliveryID, setDelDeliveryID] = useState<string | number>("");
 
   // color scheme setting
-  const [colorScheme, setColorScheme] = useState<string>('white');
+  const [colorScheme, setColorScheme] = useState<string>("white");
 
   const handleNextClick_DelDelivery = () => {
     console.log(delDeliveryID);
-  }
-  useEffect(() => {
-  }, []);
+  };
+
+  useEffect(() => {}, []);
 
   return (
     <MantineProvider>
-      <Box className="box-padding" style={{ minHeight: '100vh', backgroundColor: colorScheme} }>
+      <Box
+        className="box-padding"
+        style={{ minHeight: "100vh", backgroundColor: colorScheme }}
+      >
         <Container fluid>
-          <Header colorScheme={colorScheme} setColorScheme={setColorScheme}/>
-          <Flex gap="2rem" direction="row" style={{justifyContent: "center", alignItems:"center"}} ml="10rem" mr="10rem" mt="2rem">
+          <Header colorScheme={colorScheme} setColorScheme={setColorScheme} />
+          <Flex
+            gap="2rem"
+            direction="row"
+            style={{ justifyContent: "center", alignItems: "center" }}
+            ml="10rem"
+            mr="10rem"
+            mt="2rem"
+          >
             <Stack w="10rem">
-              <Modal.Root opened={openedAdd} onClose={() => setOpenedAdd(false)} centered size="30rem">
-                <Modal.Overlay/>
+              {/* 'add delivery' modal */}
+              <Modal.Root
+                opened={openedAdd}
+                onClose={() => setOpenedAdd(false)}
+                centered
+                size="30rem"
+              >
+                <Modal.Overlay />
                 <Modal.Content>
                   <Modal.Header>
-                    <Modal.Title style={{fontWeight: "bold"}}>Add Delivery</Modal.Title>
+                    <Modal.Title style={{ fontWeight: "bold" }}>
+                      Add Delivery
+                    </Modal.Title>
                     <Modal.CloseButton />
                   </Modal.Header>
                   <Modal.Body>
@@ -84,8 +100,8 @@ const App: React.FC = () => {
                           label="Type"
                           placeholder="Pick value"
                           description="Select the type of merch"
-                          data={['T-Shirt', 'Sticker', 'Swag']}
-                          style={{minWidth:"10rem"}}
+                          data={["T-Shirt", "Sticker", "Swag"]}
+                          style={{ minWidth: "10rem" }}
                           required
                         />
                         <NumberInput
@@ -120,7 +136,7 @@ const App: React.FC = () => {
                           onChange={setDate}
                           placeholder="Input the date"
                           renderDay={dayPlacedRenderer}
-                          style={{minWidth:"10rem"}}
+                          style={{ minWidth: "10rem" }}
                           w="100%"
                           required
                         />
@@ -131,7 +147,7 @@ const App: React.FC = () => {
                           onChange={setDate}
                           placeholder="Inpute the date"
                           renderDay={dayPlacedRenderer}
-                          style={{minWidth:"10rem"}}
+                          style={{ minWidth: "10rem" }}
                           w="100%"
                           required
                         />
@@ -139,32 +155,41 @@ const App: React.FC = () => {
                       <Checkbox
                         label="I understand that I am ADDING this delivery"
                         checked={checkedModDelivery}
-                        onChange={(event) => setCheckedModDelivery(event.currentTarget.checked)}
+                        onChange={(event) =>
+                          setCheckedModDelivery(event.currentTarget.checked)
+                        }
                         color="black"
-                        required  
+                        required
                       />
-                      <Button color="black">
-                        Submit
-                      </Button>
+                      <Button color="black">Submit</Button>
                     </Stack>
                   </Modal.Body>
                 </Modal.Content>
               </Modal.Root>
-              <Button 
-                onClick={() => setOpenedAdd(true)} 
-                fullWidth 
-                style={{ 
-                  color: colorScheme !== 'black' ? 'white' : 'black', 
-                  backgroundColor: colorScheme !== 'black' ? 'black' : 'white'
+              <Button
+                onClick={() => setOpenedAdd(true)}
+                fullWidth
+                style={{
+                  color: colorScheme !== "black" ? "white" : "black",
+                  backgroundColor: colorScheme !== "black" ? "black" : "white",
                 }}
               >
                 Add Delivery
               </Button>
-              <Modal.Root opened={openedMod} onClose={() => setOpenedMod(false)} centered size="30rem">
-                <Modal.Overlay/>
+
+              {/* 'modify delivery' modal */}
+              <Modal.Root
+                opened={openedMod}
+                onClose={() => setOpenedMod(false)}
+                centered
+                size="30rem"
+              >
+                <Modal.Overlay />
                 <Modal.Content>
                   <Modal.Header>
-                    <Modal.Title style={{ fontWeight: "bold" }}>Modify Delivery</Modal.Title>
+                    <Modal.Title style={{ fontWeight: "bold" }}>
+                      Modify Delivery
+                    </Modal.Title>
                     <Modal.CloseButton />
                   </Modal.Header>
                   <Modal.Body>
@@ -183,8 +208,8 @@ const App: React.FC = () => {
                         label="Change Type"
                         placeholder="Pick value"
                         description="Select the type of merch"
-                        data={['T-Shirt', 'Sticker', 'Swag']}
-                        style={{minWidth:"10rem"}}
+                        data={["T-Shirt", "Sticker", "Swag"]}
+                        style={{ minWidth: "10rem" }}
                       />
                       <NumberInput
                         prefix="$"
@@ -207,7 +232,7 @@ const App: React.FC = () => {
                           onChange={setDate}
                           placeholder="Input the date"
                           renderDay={dayPlacedRenderer}
-                          style={{minWidth:"10rem"}}
+                          style={{ minWidth: "10rem" }}
                           w="100%"
                         />
                         <DateInput
@@ -217,35 +242,42 @@ const App: React.FC = () => {
                           onChange={setDate}
                           placeholder="Inpute the date"
                           renderDay={dayPlacedRenderer}
-                          style={{minWidth:"10rem"}}
+                          style={{ minWidth: "10rem" }}
                           w="100%"
                         />
                       </Flex>
                       <Checkbox
                         label="I understand that I am MODIFYING this delivery"
                         checked={checkedModDelivery}
-                        onChange={(event) => setCheckedModDelivery(event.currentTarget.checked)}
+                        onChange={(event) =>
+                          setCheckedModDelivery(event.currentTarget.checked)
+                        }
                         color="black"
-                        required  
+                        required
                       />
-                      <Button color="black">
-                        Submit
-                      </Button>
+                      <Button color="black">Submit</Button>
                     </Stack>
                   </Modal.Body>
                 </Modal.Content>
               </Modal.Root>
               <Button
-                onClick={() => setOpenedMod(true)} 
-                fullWidth 
-                style={{ 
-                  color: colorScheme !== 'black' ? 'white' : 'black', 
-                  backgroundColor: colorScheme !== 'black' ? 'black' : 'white' 
+                onClick={() => setOpenedMod(true)}
+                fullWidth
+                style={{
+                  color: colorScheme !== "black" ? "white" : "black",
+                  backgroundColor: colorScheme !== "black" ? "black" : "white",
                 }}
               >
                 Modify Delivery
               </Button>
-              <Modal opened={openedDel} onClose={() => setOpenedDel(false)} title="Authentication" centered>
+
+              {/* 'delete delivery' modal */}
+              <Modal
+                opened={openedDel}
+                onClose={() => setOpenedDel(false)}
+                title="Authentication"
+                centered
+              >
                 <Stack mb={15}>
                   <Flex direction="row" justify="flex-start" gap="1.5rem">
                     <NumberInput
@@ -255,7 +287,7 @@ const App: React.FC = () => {
                       w="100%"
                       required
                       allowNegative={false}
-                      value={delDeliveryID} 
+                      value={delDeliveryID}
                       onChange={setDelDeliveryID}
                       min={1}
                     />
@@ -263,41 +295,40 @@ const App: React.FC = () => {
                   <Checkbox
                     label="I understand that I am DELETING this delivery"
                     checked={checkedModDelivery}
-                    onChange={(event) => setCheckedModDelivery(event.currentTarget.checked)}
+                    onChange={(event) =>
+                      setCheckedModDelivery(event.currentTarget.checked)
+                    }
                     color="black"
-                    required  
+                    required
                   />
-                  <Button 
-                    color="black"
-                    onClick={handleNextClick_DelDelivery}
-                  >
+                  <Button color="black" onClick={handleNextClick_DelDelivery}>
                     Submit
                   </Button>
                 </Stack>
               </Modal>
               <Button
-                onClick={() => setOpenedDel(true)} 
-                fullWidth 
-                className="button" 
-                style={{  
-                  color: colorScheme !== 'black' ? 'white' : 'black', 
-                  backgroundColor: colorScheme !== 'black' ? 'black' : 'white' 
+                onClick={() => setOpenedDel(true)}
+                fullWidth
+                className="button"
+                style={{
+                  color: colorScheme !== "black" ? "white" : "black",
+                  backgroundColor: colorScheme !== "black" ? "black" : "white",
                 }}
               >
                 Delete Delivery
               </Button>
             </Stack>
             <Container display="flex" w="100%">
-              <InventoryTable colorScheme={colorScheme}/>
+              <InventoryTable colorScheme={colorScheme} />
             </Container>
           </Flex>
           <Flex justify="center" align="center" ml="10rem" mr="10rem" mt="2rem">
             <DeliveryTable colorScheme={colorScheme}></DeliveryTable>
-          </Flex> 
+          </Flex>
         </Container>
       </Box>
     </MantineProvider>
   );
-}
+};
 
 export default App;
