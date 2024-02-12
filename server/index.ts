@@ -1,15 +1,15 @@
-import express from 'express';
-import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client'
-import cors from 'cors';
+import express from "express";
+import { Request, Response } from "express";
+import { PrismaClient } from "@prisma/client";
+import cors from "cors";
 
 const prisma = new PrismaClient();
 const app = express();
 const PORT = 3001;
 app.use(cors());
 
-// delivery
-app.get('/api/data/delivery', async (req: Request, res: Response) => {
+// send delivery data
+app.get("/api/data/delivery", async (req: Request, res: Response) => {
   try {
     const data = await prisma.delivery.findMany({
       include: {
@@ -27,17 +27,18 @@ app.get('/api/data/delivery', async (req: Request, res: Response) => {
       price: delivery.price,
       company: delivery.company,
       deliverydate: delivery.deliverydate,
-      arrivaldate: delivery.arrivaldate
+      arrivaldate: delivery.arrivaldate,
     }));
     res.send(transformedData);
     console.log(transformedData);
   } catch (error) {
-    console.error('Error fetching data:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error fetching data:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-app.get('/api/data/inventory', async (req: Request, res: Response) => {
+// send inventory data
+app.get("/api/data/inventory", async (req: Request, res: Response) => {
   try {
     const data = await prisma.inventory.findMany({
       include: {
@@ -50,18 +51,19 @@ app.get('/api/data/inventory', async (req: Request, res: Response) => {
     });
     const transformedData = data.map((inventory) => ({
       id: inventory.id,
-      type: inventory.itemtype !== null ? inventory.itemtype.name : 'N/A',
+      type: inventory.itemtype !== null ? inventory.itemtype.name : "N/A",
       quantity: inventory.quantity,
     }));
     res.send(transformedData);
     console.log(transformedData);
   } catch (error) {
-    console.error('Error fetching data:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error fetching data:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-app.get('/api/data/deldelivery', async (req: Request, res: Response) => {
+// send deleted deliveries data
+app.get("/api/data/deldelivery", async (req: Request, res: Response) => {
   try {
     const data = await prisma.deldelivery.findMany({
       include: {
@@ -79,11 +81,12 @@ app.get('/api/data/deldelivery', async (req: Request, res: Response) => {
     res.send(transformedData);
     console.log(transformedData);
   } catch (error) {
-    console.error('Error fetching data:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error fetching data:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
+// port
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
