@@ -7,11 +7,9 @@ For this project, I chose to solve the Operations Team's problem.
 **Operations:** "We have a lot of physical items to manage, such as t-shirts, stickers, and swag, but it's difficult to keep track of inventory and ensure that everything is delivered on time. If only there is an easy way to manage and track these items..."
 
 ## The App and Its Value Proposition
-The app provides a streamlined and intuitive solution for managing the VandyHacks inventory. With a clean and easy-to-navigate user interface, the app simplifies the process of tracking and accessing inventory data. <br />
-
 Key features include: <br />
 
-**Inventory Management:** The app enables efficient management of inventory items essential for Vandyhacks events. <br />
+**Inventory Management:** The app enables efficient management of inventory items essential for Vandyhacks events. Currently, it displays inventory data and ongoing deliveries gathered from a database. <br />
 **Streamlined Interface:** I designed the app with a focus on simplicity and efficiency. Users can quickly find the information they need without navigating through cluttered menus or complex interfaces, enhancing productivity.
 
 ## Demo 
